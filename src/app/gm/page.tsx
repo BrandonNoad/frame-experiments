@@ -35,9 +35,12 @@ export default async function Gm() {
           <Link href="/logout">Sign Out</Link>
         </Button>
       </div>
-      <main className="flex min-h-screen flex-col items-center justify-center">
-        <p className="text-2xl font-semibold">
-          🎩 GM {session.identity?.traits.username}
+      <main className="flex min-h-screen flex-col items-center justify-center text-center">
+        <p className="text-base font-semibold sm:text-2xl">
+          🎩 GM{" "}
+          <span className="text-sm sm:text-2xl">
+            {session.identity?.traits.username}
+          </span>
         </p>
       </main>
     </div>
