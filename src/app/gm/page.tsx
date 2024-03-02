@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { FrontendApi, Configuration } from "@ory/client";
 import Link from "next/link";
+import { ethers } from "ethers";
 
 import { Button } from "~/components/Button";
 
@@ -28,6 +29,14 @@ export default async function Gm() {
     return redirect("/");
   }
 
+  const provider = new ethers.JsonRpcProvider(
+    "https://www.noderpc.xyz/rpc-mainnet/public",
+  );
+
+  const address = session.identity?.traits.username as string;
+
+  const ensName = await provider.lookupAddress(address);
+
   return (
     <div>
       <div className="relative">
@@ -38,9 +47,7 @@ export default async function Gm() {
       <main className="flex min-h-screen flex-col items-center justify-center text-center">
         <p className="text-base font-semibold sm:text-2xl">
           🎩 GM{" "}
-          <span className="text-sm sm:text-2xl">
-            {session.identity?.traits.username}
-          </span>
+          <span className="text-sm sm:text-2xl">{ensName ?? address}</span>
         </p>
       </main>
     </div>
