@@ -29,13 +29,18 @@ export default async function Gm() {
     return redirect("/");
   }
 
-  const provider = new ethers.JsonRpcProvider(
-    "https://www.noderpc.xyz/rpc-mainnet/public",
-  );
-
   const address = session.identity?.traits.username as string;
 
-  const ensName = await provider.lookupAddress(address);
+  let ensName: string | null = null;
+  try {
+    const provider = new ethers.JsonRpcProvider(
+      "https://www.noderpc.xyz/rpc-mainnet/public",
+    );
+
+    ensName = await provider.lookupAddress(address);
+  } catch (err) {
+    // no-op
+  }
 
   return (
     <div>
